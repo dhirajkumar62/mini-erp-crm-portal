@@ -1,0 +1,13 @@
+CREATE TYPE user_role AS ENUM ('Admin','Sales','Warehouse','Accounts');
+CREATE TYPE customer_status AS ENUM ('Lead','Active','Inactive');
+CREATE TYPE customer_type AS ENUM ('Retail','Wholesale','Distributor');
+CREATE TYPE challan_status AS ENUM ('Draft','Confirmed','Cancelled');
+CREATE TYPE movement_type AS ENUM ('IN','OUT');
+CREATE TABLE users (id uuid PRIMARY KEY, name text NOT NULL, email text UNIQUE NOT NULL, password_hash text NOT NULL, role user_role NOT NULL, created_at timestamptz DEFAULT now());
+CREATE TABLE customers (id uuid PRIMARY KEY, name text NOT NULL, mobile text NOT NULL, email text NOT NULL, business_name text NOT NULL, gst text, type customer_type NOT NULL, address text NOT NULL, status customer_status NOT NULL, follow_up_date date, notes text NOT NULL DEFAULT '', created_at timestamptz DEFAULT now());
+CREATE TABLE customer_follow_ups (id uuid PRIMARY KEY, customer_id uuid REFERENCES customers(id), note text NOT NULL, follow_up_date date NOT NULL, created_by uuid REFERENCES users(id), created_at timestamptz DEFAULT now());
+CREATE TABLE products (id uuid PRIMARY KEY, name text NOT NULL, sku text UNIQUE NOT NULL, category text NOT NULL, unit_price numeric(12,2) NOT NULL, current_stock integer NOT NULL CHECK(current_stock >= 0), min_stock integer NOT NULL, location text NOT NULL, created_at timestamptz DEFAULT now());
+CREATE TABLE stock_movements (id uuid PRIMARY KEY, product_id uuid REFERENCES products(id), quantity integer NOT NULL CHECK(quantity > 0), movement_type movement_type NOT NULL, reason text NOT NULL, created_by uuid REFERENCES users(id), created_at timestamptz DEFAULT now());
+CREATE TABLE challans (id uuid PRIMARY KEY, challan_number text UNIQUE NOT NULL, customer_id uuid REFERENCES customers(id), status challan_status NOT NULL DEFAULT 'Draft', created_by uuid REFERENCES users(id), created_at timestamptz DEFAULT now());
+CREATE TABLE challan_items (id uuid PRIMARY KEY, challan_id uuid REFERENCES challans(id) ON DELETE CASCADE, product_id uuid REFERENCES products(id), product_name_snapshot text NOT NULL, sku_snapshot text NOT NULL, unit_price_snapshot numeric(12,2) NOT NULL, quantity integer NOT NULL CHECK(quantity > 0));
+CREATE INDEX customers_search_idx ON customers (business_name, name); CREATE INDEX movements_product_idx ON stock_movements(product_id, created_at DESC);

@@ -1,0 +1,11 @@
+{
+  "name": "mini-erp-crm-operations-portal",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix server run dev & npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "typecheck": "npm --prefix server run typecheck"
+  }
+}

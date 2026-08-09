@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mini_erp
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+    ports: ["5432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data", "./server/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro"]
+volumes:
+  postgres_data:

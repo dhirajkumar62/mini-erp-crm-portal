@@ -1,0 +1,28 @@
+/* Final layout layer for the sign-in and registration screens. */
+@media(min-width:901px){
+  .login>section{justify-content:flex-start!important;padding-top:142px!important;overflow:auto}
+  .login>section>p{margin-top:0!important}
+  .login>section>h1{max-width:560px!important;font-size:clamp(38px,3.3vw,50px)!important;line-height:1.04!important;margin-bottom:20px!important}
+  .login .back~p{margin-top:0!important}
+  .login-card{padding:27px 34px!important;max-width:530px!important}
+  .login-card h2{font-size:27px!important}
+  .login-card>p{margin-bottom:16px!important}
+  .login-card form{gap:11px!important;margin-bottom:17px!important}
+  .login-card input,.login-card select{height:41px!important}
+  .login-card .primary{height:46px!important}
+  .login .back{z-index:2}
+}
+@media(max-height:780px) and (min-width:901px){
+  .login>section{padding-top:112px!important}
+  .login>section>h1{font-size:38px!important;margin-bottom:13px!important}
+  .login-card{padding:20px 29px!important}
+  .login-card>p{margin-bottom:10px!important}
+  .login-card form{gap:8px!important;margin-bottom:11px!important}
+  .login-card input,.login-card select{height:37px!important}
+  .login-card .primary{height:41px!important}
+  .login-card small{display:none}
+}
+@media(max-width:900px){
+  .login>section{padding-top:112px!important;justify-content:flex-start!important}
+  .login .back~p{margin-top:0!important}
+}
